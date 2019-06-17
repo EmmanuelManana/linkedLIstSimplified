@@ -1,5 +1,14 @@
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   linked.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emanana <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/17 14:38:20 by emanana           #+#    #+#             */
+/*   Updated: 2019/06/17 17:28:27 by emanana          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -76,21 +85,55 @@ node		*ft_addfirstnode(node *list, int n)
 node		*ft_addlastnode(node *list)
 {
 	node *last;
+	node *temp;
 
-	last = (node*)malloc(sizeof(node) * 1);
-	while (list->link_next != NULL)
+	last = list;
+	temp = list;
+	while (last->link_next != NULL)
 	{
-		last->link_next = list;
-		list = last;
+		last = last->link_next;
 	}
-	return (last);
+	last->link_next = temp;
+	return (temp);
 }
 
 //insert a new node on the nth node
 
+//delte node at this position
+void		deleteTargetNode(node *list, int target)
+{
+	node 	*del;
+	node 	*trav;
+	int i;
+
+	i = 1;//beacuse the head o fthe list is at postion 1
+	del = list;
+	trav = list;
+	while (trav->link_next && i < target)
+	{
+		trav = trav->link_next;
+		i++;
+	}
+	trav->link_next = del->link_next;
+	free(del);
+}
 int		main(void)
 {
-	//count from 1 to 10 using linked list-> create 10 nodes, then display
-	showlist(createThisNumberOfNodes(10));
+	//count from 10 to 1 using linked list-> create 10 nodes, then display
+	node* list = createThisNumberOfNodes(10);
+	//show th list
+	showlist(list);
+
+	//now lets add a node at the end of the list and some random number say 42
+	node* addlist = ft_addlastnode(list);
+	showlist(addlist);
 	return (0);
 }
+
+
+
+
+
+
+
+
