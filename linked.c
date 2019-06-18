@@ -6,7 +6,7 @@
 /*   By: emanana <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:38:20 by emanana           #+#    #+#             */
-/*   Updated: 2019/06/17 17:28:27 by emanana          ###   ########.fr       */
+/*   Updated: 2019/06/18 18:15:21 by emanana          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@ node  *createThisNumberOfNodes(int n)
 	node *created = NULL;
 	node *head = NULL;
 
-	temp = (node*)malloc(sizeof(node) * 1);
 	while (n >= 0)
 	{
-		//allocate mem nth times
+		//isolated temp node
 		temp = (node*)malloc(sizeof(node) * 1);
-		//temp->link_next = temp; // point to the newly created node.
 		temp->data = n;// insert n-- to the newly created note.
-		temp->link_next = NULL;//point the last node to NULL.
+		temp->link_next = NULL;
+
 		if (head == NULL)
 		{
 			head = temp;
@@ -45,10 +44,10 @@ node  *createThisNumberOfNodes(int n)
 		else
 		{
 			created = head;
-			//while there is still a node to traverse into.
+			//while there is l a node to traverse into.
 			while (created->link_next != NULL)
 				created = created->link_next;
-			//place a NUll at the end of the last node.
+			//link temp to th node pointed node.
 			created->link_next = temp;
 		}
 		n--;
@@ -70,7 +69,7 @@ void 		showlist(node *head)
 }
 
 //add new node at the beginning of the linked list
-node		*ft_addfirstnode(node *list, int n)
+node		*ft_addnodebegin(node *list, int n)
 {
 	node *temp;
 
@@ -82,19 +81,20 @@ node		*ft_addfirstnode(node *list, int n)
 }
 
 //insert a new node at the end of the list
-node		*ft_addlastnode(node *list)
+node		*ft_addlastnode(node *list, int n)
 {
-	node *last;
 	node *temp;
+	node *dalist;
 
-	last = list;
-	temp = list;
-	while (last->link_next != NULL)
-	{
-		last = last->link_next;
-	}
-	last->link_next = temp;
-	return (temp);
+	dalist = list;
+	temp = (node*)malloc(sizeof(node) * 1);
+	temp->data = n;
+	temp->link_next = NULL;
+
+	while(dalist->link_next != NULL)
+		dalist = dalist->link_next;
+	dalist->link_next = temp;
+	return (dalist);
 }
 
 //insert a new node on the nth node
@@ -102,21 +102,30 @@ node		*ft_addlastnode(node *list)
 //delte node at this position
 void		deleteTargetNode(node *list, int target)
 {
-	node 	*del;
-	node 	*trav;
-	int i;
+	node 	*temp;
+	node 	*bef;
+	
+	//beacuse the head o fthe list is at postion 1
+	temp = list;
 
-	i = 1;//beacuse the head o fthe list is at postion 1
-	del = list;
-	trav = list;
-	while (trav->link_next && i < target)
+
+	if (temp != NULL && temp->data == target)
 	{
-		trav = trav->link_next;
-		i++;
+		list = temp->link_next;
+		free(temp);
+		return ;
 	}
-	trav->link_next = del->link_next;
-	free(del);
+	while (temp && temp->data != target)
+	{
+		bef = temp;
+		temp = temp->link_next;
+	}
+	if (temp == NULL)
+		return ;
+	bef->link_next = temp->link_next;
+	free(temp);
 }
+
 int		main(void)
 {
 	//count from 10 to 1 using linked list-> create 10 nodes, then display
@@ -124,16 +133,19 @@ int		main(void)
 	//show th list
 	showlist(list);
 
-	//now lets add a node at the end of the list and some random number say 42
-	node* addlist = ft_addlastnode(list);
-	showlist(addlist);
+	//add a new node at the beginning of the list, and insert a 42 nyana nje
+	node  *newlist  = ft_addnodebegin(list, 42);
+	puts("\n");
+	showlist(newlist);
+
+	puts("\n");
+	//delete the nth node
+	deleteTargetNode(newlist, 5);
+
+	// showing the list after deleteting
+	showlist(newlist);
+
+
+
 	return (0);
 }
-
-
-
-
-
-
-
-
