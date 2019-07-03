@@ -6,7 +6,7 @@
 /*   By: emanana <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:38:20 by emanana           #+#    #+#             */
-/*   Updated: 2019/06/18 18:15:21 by emanana          ###   ########.fr       */
+/*   Updated: 2019/07/03 12:17:12 by emanana          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef	struct s_struct
 	int data;
 	//link to the next node
 	struct s_struct *link_next;
-}
-		node;
+}		node;
+
 //create nth number of nodes and put n--  in all of them
 node  *createThisNumberOfNodes(int n)
 {
@@ -32,7 +32,7 @@ node  *createThisNumberOfNodes(int n)
 
 	while (n >= 0)
 	{
-		//isolated temp node
+		//isolated temp node(to add in line in line 51).
 		temp = (node*)malloc(sizeof(node) * 1);
 		temp->data = n;// insert n-- to the newly created note.
 		temp->link_next = NULL;
@@ -44,10 +44,10 @@ node  *createThisNumberOfNodes(int n)
 		else
 		{
 			created = head;
-			//while there is l a node to traverse into.
+			//while there exit a node to traverse into.(keeping jumping the existing notes till you find the end,
 			while (created->link_next != NULL)
 				created = created->link_next;
-			//link temp to th node pointed node.
+			//upon reaching the end add the newly(isloted node, look line 35)
 			created->link_next = temp;
 		}
 		n--;
@@ -73,16 +73,16 @@ node		*ft_addnodebegin(node *list, int n)
 {
 	node *temp;
 
-	temp = (node*)malloc(sizeof(node) * 1);
+	temp = (node*)malloc(sizeof(node) * 1);// create an isoloted node to add in line 78.
 	temp->data = n;
-	temp->link_next = list;
+	temp->link_next = list;//link the isolated node (line 76) to first node(head), making it the head.
 	list = temp;
 	return (list);
 }
 
 //insert a new node at the end of the list
 node		*ft_addlastnode(node *list, int n)
-{
+{//this should be straight by now.
 	node *temp;
 	node *dalist;
 
